@@ -2,7 +2,7 @@
 
 Official implementation of TRACE, the TRAjectory Diffusion Model for Controllable PEdestrians, from the CVPR 2023 paper: "Trace and Pace: Controllable Pedestrian Animation via Guided Trajectory Diffusion".
 
-Note: this repo only contains the TRACE component of this paper (_i.e._, the trajectory diffusion model). For PACER (the pedestrian animation controller), please see [this other repository](https://https://github.com/nv-tlabs/pacer).
+**Note: this repo only contains the TRACE component of this paper** (_i.e._, the trajectory diffusion model). For PACER (the pedestrian animation controller), please see [this other repository](https://github.com/nv-tlabs/pacer).
 
 [[Paper]](https://nv-tlabs.github.io/trace-pace/docs/trace_and_pace.pdf) [[Website]](https://research.nvidia.com/labs/toronto-ai/trace-pace/) [[Video]](https://www.youtube.com/watch?v=225c52QDkzg)
 
