@@ -1,0 +1,228 @@
+{
+    "registered_name": "mixed_ped_diff",
+    "train": {
+        "logging": {
+            "terminal_output_to_txt": true,
+            "log_tb": false,
+            "log_wandb": true,
+            "wandb_project_name": "tbsim",
+            "log_every_n_steps": 10,
+            "flush_every_n_steps": 100
+        },
+        "save": {
+            "enabled": true,
+            "every_n_steps": 3000,
+            "best_k": 5,
+            "save_best_rollout": false,
+            "save_best_validation": true
+        },
+        "training": {
+            "batch_size": 200,
+            "num_steps": 100000,
+            "num_data_workers": 6
+        },
+        "validation": {
+            "enabled": true,
+            "batch_size": 32,
+            "num_data_workers": 4,
+            "every_n_steps": 1444,
+            "num_steps_per_epoch": 500
+        },
+        "parallel_strategy": "ddp_spawn",
+        "on_ngc": false,
+        "datamodule_class": "PassUnifiedDataModule",
+        "trajdata_cache_location": "~/.unified_data_cache",
+        "trajdata_source_train": [
+            "nusc_trainval-train",
+            "eupeds_eth-train",
+            "eupeds_hotel-train",
+            "eupeds_univ-train",
+            "eupeds_zara1-train",
+            "eupeds_zara2-train"
+        ],
+        "trajdata_source_valid": [
+            "nusc_trainval-train_val",
+            "eupeds_eth-val",
+            "eupeds_hotel-val",
+            "eupeds_univ-val",
+            "eupeds_zara1-val",
+            "eupeds_zara2-val"
+        ],
+        "trajdata_data_dirs": {
+            "nusc_trainval": "./datasets/nuscenes",
+            "nusc_test": "./datasets/nuscenes",
+            "nusc_mini": "./datasets/nuscenes",
+            "eupeds_eth": "./datasets/eth_ucy",
+            "eupeds_hotel": "./datasets/eth_ucy",
+            "eupeds_univ": "./datasets/eth_ucy",
+            "eupeds_zara1": "./datasets/eth_ucy",
+            "eupeds_zara2": "./datasets/eth_ucy"
+        },
+        "trajdata_rebuild_cache": false
+    },
+    "env": {
+        "name": "trajdata",
+        "data_generation_params": {
+            "trajdata_centric": "agent",
+            "trajdata_only_types": [
+                "pedestrian"
+            ],
+            "trajdata_predict_types": [
+                "pedestrian"
+            ],
+            "trajdata_scene_desc_contains": null,
+            "trajdata_incl_map": true,
+            "trajdata_max_agents_distance": 15.0,
+            "trajdata_standardize_data": true
+        },
+        "rasterizer": {
+            "include_hist": false,
+            "num_sem_layers": 7,
+            "drivable_layers": [],
+            "rgb_idx_groups": [
+                [
+                    0,
+                    1,
+                    2
+                ],
+                [
+                    3,
+                    4
+                ],
+                [
+                    5,
+                    6
+                ]
+            ],
+            "raster_size": 224,
+            "pixel_size": 0.08333333333333333,
+            "ego_center": [
+                -0.5,
+                0.0
+            ],
+            "no_map_fill_value": 0.5
+        }
+    },
+    "algo": {
+        "name": "diffuser",
+        "eval_class": "Diffuser",
+        "map_encoder_model_arch": "resnet18",
+        "diffuser_model_arch": "TemporalMapUnet",
+        "rasterized_map": true,
+        "use_map_feat_global": false,
+        "use_map_feat_grid": true,
+        "base_dim": 32,
+        "horizon": 52,
+        "n_diffusion_steps": 100,
+        "action_weight": 1,
+        "loss_discount": 1,
+        "dim_mults": [
+            2,
+            4,
+            8
+        ],
+        "loss_type": "l2",
+        "use_ema": true,
+        "ema_step": 1,
+        "ema_decay": 0.995,
+        "ema_start_step": 4000,
+        "diffuser_input_mode": "state_and_action",
+        "conditioning_drop_map_p": 0.1,
+        "conditioning_drop_neighbor_p": 0.1,
+        "conditioning_drop_fill": 0.5,
+        "cond_feat_dim": 256,
+        "map_feature_dim": 256,
+        "map_grid_feature_dim": 32,
+        "history_feature_dim": 128,
+        "history_num_frames": 30,
+        "history_num_frames_ego": 30,
+        "history_num_frames_agents": 30,
+        "future_num_frames": 52,
+        "step_time": 0.1,
+        "dynamics": {
+            "type": "Unicycle",
+            "max_steer": 0.5,
+            "max_yawvel": 6.283185307179586,
+            "acce_bound": [
+                -10,
+                8
+            ],
+            "ddh_bound": [
+                -6.283185307179586,
+                6.283185307179586
+            ],
+            "max_speed": 40.0
+        },
+        "loss_weights": {
+            "diffusion_loss": 1.0
+        },
+        "optim_params": {
+            "policy": {
+                "learning_rate": {
+                    "initial": 0.0002,
+                    "decay_factor": 0.1,
+                    "epoch_schedule": []
+                }
+            }
+        },
+        "diffuser": {
+            "num_eval_samples": 10
+        },
+        "diffuser_norm_info": [
+            [
+                -1.985679,
+                -0.002455,
+                -0.777417,
+                0.002131,
+                0.002807,
+                0.000199
+            ],
+            [
+                2.11184,
+                0.415881,
+                0.617595,
+                0.342887,
+                0.387015,
+                0.230898
+            ]
+        ],
+        "agent_hist_norm_info": [
+            [
+                1.146453,
+                0.003049,
+                -0.798847,
+                -0.662612,
+                -0.614196
+            ],
+            [
+                1.242787,
+                0.194718,
+                0.60153,
+                0.193939,
+                0.136501
+            ]
+        ],
+        "neighbor_hist_norm_info": [
+            [
+                -0.282255,
+                -0.034856,
+                -0.63808,
+                -0.526286,
+                -0.521026
+            ],
+            [
+                5.180557,
+                4.354133,
+                0.473684,
+                0.081178,
+                0.063327
+            ]
+        ]
+    },
+    "name": "mixed_mlp_hist_grid_map_drop_10",
+    "root_dir": "diffuser_trained_models/",
+    "seed": 1,
+    "devices": {
+        "num_gpus": 1
+    }
+}

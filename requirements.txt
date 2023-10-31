@@ -1,0 +1,27 @@
+# tbsim
+numpy==1.21.4 # trajdata requires this version
+pytorch-lightning==1.6.4
+wandb
+pyemd
+h5py
+imageio-ffmpeg
+shapely==1.8.2 # trajdata requires this version
+einops
+
+# trajdata
+pyarrow
+tqdm==4.62
+matplotlib==3.5
+dill==0.3.4
+pandas==1.4.1
+pyarrow==7.0.0
+
+nuscenes-devkit==1.1.9
+
+black==22.1.0
+isort==5.10.1
+pytest==7.1.1
+pytest-xdist==2.5.0
+
+zarr==2.11.0
+kornia==0.6.4

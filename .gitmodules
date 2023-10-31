@@ -1,0 +1,3 @@
+[submodule "orca_sim/Python-RVO2"]
+	path = orca_sim/Python-RVO2
+	url = https://github.com/sybrenstuvel/Python-RVO2

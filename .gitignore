@@ -1,0 +1,12 @@
+wandb/
+out/
+ckpt/
+datasets/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+.vscode/*
+
+*.egg-info

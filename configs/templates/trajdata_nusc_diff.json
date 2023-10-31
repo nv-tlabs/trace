@@ -1,0 +1,211 @@
+{
+    "registered_name": "trajdata_nusc_diff",
+    "train": {
+        "logging": {
+            "terminal_output_to_txt": true,
+            "log_tb": false,
+            "log_wandb": true,
+            "wandb_project_name": "tbsim",
+            "log_every_n_steps": 10,
+            "flush_every_n_steps": 100
+        },
+        "save": {
+            "enabled": true,
+            "every_n_steps": 2000,
+            "best_k": 10,
+            "save_best_rollout": false,
+            "save_best_validation": true
+        },
+        "training": {
+            "batch_size": 100,
+            "num_steps": 200000,
+            "num_data_workers": 8
+        },
+        "validation": {
+            "enabled": true,
+            "batch_size": 32,
+            "num_data_workers": 6,
+            "every_n_steps": 1000,
+            "num_steps_per_epoch": 50
+        },
+        "parallel_strategy": "ddp_spawn",
+        "datamodule_class": "PassUnifiedDataModule",
+        "trajdata_cache_location": "~/.unified_data_cache",
+        "trajdata_source_train": [
+            "nusc_trainval-train"
+        ],
+        "trajdata_source_valid": [
+            "nusc_trainval-train_val"
+        ],
+        "trajdata_data_dirs": {
+            "nusc_trainval": "./datasets/nuscenes",
+            "nusc_test": "./datasets/nuscenes",
+            "nusc_mini": "./datasets/nuscenes"
+        },
+        "trajdata_rebuild_cache": false
+    },
+    "env": {
+        "name": "trajdata",
+        "data_generation_params": {
+            "trajdata_centric": "agent",
+            "trajdata_only_types": [
+                "vehicle",
+                "pedestrian"
+            ],
+            "trajdata_predict_types": null,
+            "trajdata_scene_desc_contains": null,
+            "trajdata_incl_map": true,
+            "trajdata_max_agents_distance": 30.0,
+            "trajdata_standardize_data": true
+        },
+        "rasterizer": {
+            "include_hist": true,
+            "num_sem_layers": 7,
+            "drivable_layers": null,
+            "rgb_idx_groups": [
+                [
+                    0,
+                    1,
+                    2
+                ],
+                [
+                    3,
+                    4
+                ],
+                [
+                    5,
+                    6
+                ]
+            ],
+            "raster_size": 224,
+            "pixel_size": 0.5,
+            "ego_center": [
+                -0.5,
+                0.0
+            ],
+            "no_map_fill_value": -1.0
+        }
+    },
+    "algo": {
+        "name": "diffuser",
+        "eval_class": "Diffuser",
+        "map_encoder_model_arch": "resnet18",
+        "diffuser_model_arch": "TemporalMapUnet",
+        "rasterized_map": true,
+        "use_map_feat_global": false,
+        "use_map_feat_grid": true,
+        "base_dim": 32,
+        "horizon": 52,
+        "n_diffusion_steps": 100,
+        "action_weight": 1,
+        "loss_discount": 1,
+        "dim_mults": [
+            2,
+            4,
+            8
+        ],
+        "loss_type": "l2",
+        "use_ema": true,
+        "ema_step": 1,
+        "ema_decay": 0.995,
+        "ema_start_step": 4000,
+        "diffuser_input_mode": "state_and_action",
+        "conditioning_drop_map_p": 0.1,
+        "conditioning_drop_neighbor_p": 0.1,
+        "conditioning_drop_fill": 0.5,
+        "cond_feat_dim": 256,
+        "map_feature_dim": 256,
+        "map_grid_feature_dim": 32,
+        "history_feature_dim": 128,
+        "history_num_frames": 30,
+        "history_num_frames_ego": 30,
+        "history_num_frames_agents": 30,
+        "future_num_frames": 52,
+        "step_time": 0.1,
+        "dynamics": {
+            "type": "Unicycle",
+            "max_steer": 0.5,
+            "max_yawvel": 6.283185307179586,
+            "acce_bound": [
+                -10,
+                8
+            ],
+            "ddh_bound": [
+                -6.283185307179586,
+                6.283185307179586
+            ],
+            "max_speed": 40.0
+        },
+        "loss_weights": {
+            "diffusion_loss": 1.0
+        },
+        "optim_params": {
+            "policy": {
+                "learning_rate": {
+                    "initial": 0.0002,
+                    "decay_factor": 0.1,
+                    "epoch_schedule": []
+                }
+            }
+        },
+        "diffuser": {
+            "num_eval_samples": 10
+        },
+        "diffuser_norm_info": [
+            [
+                -3.538049,
+                0.004175,
+                -1.360894,
+                0.001894,
+                0.015233,
+                0.000562
+            ],
+            [
+                2.304491,
+                0.462847,
+                0.426683,
+                0.19193,
+                0.255089,
+                0.175583
+            ]
+        ],
+        "agent_hist_norm_info": [
+            [
+                2.07473,
+                -0.000102,
+                -1.401319,
+                0.0,
+                0.0
+            ],
+            [
+                1.376582,
+                0.214366,
+                0.369064,
+                1.0,
+                1.0
+            ]
+        ],
+        "neighbor_hist_norm_info": [
+            [
+                -2.804952,
+                -0.037075,
+                -0.544995,
+                0.0,
+                0.0
+            ],
+            [
+                6.161589,
+                6.486891,
+                0.771583,
+                1.0,
+                1.0
+            ]
+        ]
+    },
+    "name": "test",
+    "root_dir": "diffuser_trained_models/",
+    "seed": 1,
+    "devices": {
+        "num_gpus": 1
+    }
+}
