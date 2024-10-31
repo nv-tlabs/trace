@@ -48,10 +48,10 @@ The nuScenes dataset should be downloaded from the [webpage](https://www.nuscene
 
 The full ETH/UCY dataset can be downloaded as pre-processed text files from [this repo](https://github.com/StanfordASL/Trajectron-plus-plus/tree/master/experiments/pedestrians/raw/raw/all_data). They should be placed in [`datasets/eth_ucy`](./datasets/).
 
-The dataset generated with the [ORCA crowd simulator](./orca_sim) is available to download [on Google Drive](https://drive.google.com/file/d/17ANk-ZKZT0VcXJLM3oAxqdRyU6bIVVqg/view?usp=sharing). It should be unzipped and placed in the `datasets` directory.
+The dataset generated with the [ORCA crowd simulator](./orca_sim) is available to download [at this link](https://www.dropbox.com/scl/fi/zgb9ux5rqvx5vhrjiqduq/orca_sim.zip?rlkey=yz0olbf4mj37netdnylq0a9ei&st=qeqcivh8&dl=0). It should be unzipped and placed in the `datasets` directory.
 
 ### Pre-trained Models
-The pre-trained TRACE models evaluated in the paper are available for download [from this link](https://drive.google.com/file/d/1pTlZDUQIqmMRDpNssdfOUGDFE3sQpKmF/view?usp=drive_link). They should be unzipped in the `ckpt` directory to use the commands detailed below.
+The pre-trained TRACE models evaluated in the paper are available for download [from this link](https://www.dropbox.com/scl/fi/vq89o8nmjibyo70nn3ikr/trace.zip?rlkey=xvzqpbf6cn76ryifdoa1pdlvl&st=st33d7yy&dl=0). They should be unzipped in the `ckpt` directory to use the commands detailed below.
 
 ## Running Test-Time Guidance
 First, let's see how to run the pre-trained models and use guidance at test time. 
